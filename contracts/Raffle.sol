@@ -30,33 +30,34 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatible {
     }
     // Local Variables
     uint256 private immutable i_entranceFee;
-    address payable[] private s_players;
     VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
     bytes32 private immutable i_gasLane;
     uint64 private immutable i_subscriptionId;
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
     uint32 private immutable i_callbackGasLimit;
     uint32 private constant NUM_WORDS = 2;
-    uint private s_lastTimeStamp;
     // uint256 private immutable
 
     // Lottery Variables
     address private s_recentWinner;
     RaffleState private s_raffleState;
     uint private immutable i_interval;
+    address payable[] private s_players;
+    uint private s_lastTimeStamp;
 
     /** Events */
     event RaffleEnter(address indexed players);
     event RequestedRaffleWinner(uint256 indexed requestedId);
     event WinnerPicked(address indexed winner);
 
+    /**Functions */
     constructor(
         address vrfCoordinatorV2,
-        uint256 entranceFee,
-        bytes32 gasLane,
         uint64 subscriptionId,
-        uint32 callbackGasLimit,
-        uint interval
+        bytes32 gasLane,
+        uint256 interval,
+        uint256 entranceFee,
+        uint32 callbackGasLimit
     ) VRFConsumerBaseV2(vrfCoordinatorV2) {
         i_entranceFee = entranceFee;
         i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
